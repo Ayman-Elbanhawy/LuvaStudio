@@ -126,57 +126,79 @@ Current built-in coverage includes support and visibility around protocols such 
 
 ---
 
-## Screenshots
+## Product showcase
 
-Below are the current LUVA Studio screenshots from the `img` folder, including the main window and each major tab view.
+LUVA Studio is designed to feel like a complete local OT analysis workstation rather than a simple packet viewer. The screenshots below highlight the main operating views and how the workflow moves from capture selection to investigation and reporting.
 
-### Main dashboard
+### Control-room dashboard experience
+
+The main dashboard brings together launch controls, operational summary cards, system status, protocol visibility, and direct navigation into every major analysis surface.
 
 <p align="center">
   <img src="img/MainPageScreenshot.png" alt="LUVA Studio main dashboard" width="1000" />
 </p>
 
-### Main dashboard alternate view
-
 <p align="center">
-  <img src="img/main.png" alt="LUVA Studio main dashboard alternate screenshot" width="1000" />
+  <img src="img/main.png" alt="LUVA Studio alternate dashboard view" width="1000" />
 </p>
 
-### Overview tab
+### Guided analysis workflow
+
+#### Overview
+
+Start with the Overview tab to get the capture context, protocol visibility, timestamps, runtime information, and quick operational understanding of the loaded analysis.
 
 <p align="center">
   <img src="img/MainPageScreenshot_OverviewTab.png" alt="LUVA Studio overview tab" width="1000" />
 </p>
 
-### Assets tab
+#### Assets
+
+Move into the Assets tab to inspect discovered endpoints, inferred roles, protocol participation, open ports, and risk-oriented visibility in a clean inventory-style layout.
 
 <p align="center">
   <img src="img/MainPageScreenshot_AssetsTab.png" alt="LUVA Studio assets tab" width="1000" />
 </p>
 
-### Flows tab
+#### Flows
+
+Use the Flows tab to review communication relationships, traffic volume, and protocol-linked activity between systems across the analyzed capture set.
 
 <p align="center">
   <img src="img/MainPageScreenshot_FlowsTab.png" alt="LUVA Studio flows tab" width="1000" />
 </p>
 
-### Topology tab
+#### Topology
+
+The Topology tab helps turn raw traffic into a more understandable environment view, with communication mapping and topology-oriented outputs for deeper review.
 
 <p align="center">
   <img src="img/MainPageScreenshot_TopologyTab.png" alt="LUVA Studio topology tab" width="1000" />
 </p>
 
-### Findings tab
+#### Findings
+
+The Findings tab is built for quick review of surfaced issues, anomalies, and investigation signals so you can move faster from analysis to assessment.
 
 <p align="center">
   <img src="img/MainPageScreenshot_FindingsTab.png" alt="LUVA Studio findings tab" width="1000" />
 </p>
 
-### Report tab
+#### Report
+
+When you want a polished deliverable, the Report tab embeds the latest generated HTML report directly inside the application for a presentation-friendly review experience.
 
 <p align="center">
   <img src="img/MainPageScreenshot_ReportTab.png" alt="LUVA Studio report tab" width="1000" />
 </p>
+
+### What this showcase demonstrates
+
+- a premium local OT / ICS dashboard experience
+- passive offline packet analysis workflows
+- asset and flow visibility from one interface
+- topology and findings review without leaving the app
+- report-ready output for investigation and presentation use
 
 ---
 
