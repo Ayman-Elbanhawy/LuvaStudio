@@ -1,0 +1,62 @@
+==== Luva StartMe.bat run at Mon 04/27/2026 10:37:04.64 ==== 
+Root: C:\WireSharkTools\luvaStudio
+[1/5] Checking Python...
+Python 3.12.7
+[2/5] Ensuring virtual environment exists...
+Existing virtual environment found.
+[3/5] Installing/repairing Luva dependencies...
+Requirement already satisfied: pip in .\.venv\Lib\site-packages (26.1)
+Requirement already satisfied: setuptools in .\.venv\Lib\site-packages (82.0.1)
+Requirement already satisfied: wheel in .\.venv\Lib\site-packages (0.47.0)
+Requirement already satisfied: packaging>=24.0 in .\.venv\Lib\site-packages (from wheel) (26.1)
+Obtaining file:///C:/WireSharkTools/luvaStudio
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: scapy>=2.5 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (2.7.0)
+Requirement already satisfied: networkx>=3.0 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (3.6.1)
+Requirement already satisfied: rich>=13.0 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (15.0.0)
+Requirement already satisfied: typer>=0.9 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (0.24.2)
+Requirement already satisfied: pyyaml>=6.0 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (6.0.3)
+Requirement already satisfied: jinja2>=3.0 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (3.1.6)
+Requirement already satisfied: numpy>=1.24 in .\.venv\Lib\site-packages (from luva-studio==1.0.0) (2.4.4)
+Requirement already satisfied: MarkupSafe>=2.0 in .\.venv\Lib\site-packages (from jinja2>=3.0->luva-studio==1.0.0) (3.0.3)
+Requirement already satisfied: markdown-it-py>=2.2.0 in .\.venv\Lib\site-packages (from rich>=13.0->luva-studio==1.0.0) (4.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in .\.venv\Lib\site-packages (from rich>=13.0->luva-studio==1.0.0) (2.20.0)
+Requirement already satisfied: mdurl~=0.1 in .\.venv\Lib\site-packages (from markdown-it-py>=2.2.0->rich>=13.0->luva-studio==1.0.0) (0.1.2)
+Requirement already satisfied: click>=8.2.1 in .\.venv\Lib\site-packages (from typer>=0.9->luva-studio==1.0.0) (8.3.3)
+Requirement already satisfied: shellingham>=1.3.0 in .\.venv\Lib\site-packages (from typer>=0.9->luva-studio==1.0.0) (1.5.4)
+Requirement already satisfied: annotated-doc>=0.0.2 in .\.venv\Lib\site-packages (from typer>=0.9->luva-studio==1.0.0) (0.0.4)
+Requirement already satisfied: colorama in .\.venv\Lib\site-packages (from click>=8.2.1->typer>=0.9->luva-studio==1.0.0) (0.4.6)
+Building wheels for collected packages: luva-studio
+  Building editable for luva-studio (pyproject.toml): started
+  Building editable for luva-studio (pyproject.toml): finished with status 'done'
+  Created wheel for luva-studio: filename=luva_studio-1.0.0-0.editable-py3-none-any.whl size=16866 sha256=dd1a6c1e0e16d7740a1efa22001b5d0ee485a14ce5304a332c0006814be17322
+  Stored in directory: C:\Users\ayman.elbanhawy\AppData\Local\Temp\pip-ephem-wheel-cache-ddpp50df\wheels\c8\30\93\af6b5e0f5f43e52675e3df642a980327ef50ba4dd11abc2909
+Successfully built luva-studio
+Installing collected packages: luva-studio
+  Attempting uninstall: luva-studio
+    Found existing installation: luva-studio 1.0.0
+    Uninstalling luva-studio-1.0.0:
+      Successfully uninstalled luva-studio-1.0.0
+Successfully installed luva-studio-1.0.0
+Dependency repair step completed.
+[4/5] Preparing dynamic GUI port selection...
+Selected base port: 58299
+
+==================== LUVA READYNESS SUMMARY ====================
+Luva root      : C:\WireSharkTools\luvaStudio
+Reports dir    : C:\WireSharkTools\luvaStudio\reports
+Uploads dir    : C:\WireSharkTools\luvaStudio\uploads
+Venv python    : C:\WireSharkTools\luvaStudio\.venv\Scripts\python.exe
+GUI URL        : http://127.0.0.1:58299
+Server meta    : C:\WireSharkTools\luvaStudio\artifacts\logs\gui-server.json
+Log file       : C:\WireSharkTools\luvaStudio\artifacts\logs\StartMe.log
+Server log     : C:\WireSharkTools\luvaStudio\artifacts\logs\gui-server.log
+===============================================================
+[5/5] Starting Luva HTML GUI...

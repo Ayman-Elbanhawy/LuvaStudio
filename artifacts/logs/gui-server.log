@@ -1,0 +1,89 @@
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+127.0.0.1 - - [24/Apr/2026 10:49:33] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 10:49:33] "GET /reports/iec104_wireshark.html HTTP/1.1" 304 -
+127.0.0.1 - - [24/Apr/2026 10:49:33] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 10:50:00] "GET / HTTP/1.1" 200 -
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+127.0.0.1 - - [24/Apr/2026 11:15:15] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [24/Apr/2026 11:15:15] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 11:15:15] "GET /reports/s7comm_wireshark_reading_plc_status.html HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 11:15:15] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 11:15:29] "POST /api/run HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 11:15:29] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [24/Apr/2026 11:15:29] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:8765
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:8765
+127.0.0.1 - - [27/Apr/2026 10:00:59] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:01:00] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:01:00] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:01:00] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [27/Apr/2026 10:01:00] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:01:00] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:01:18] "GET /api/status HTTP/1.1" 200 -
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:8765
+127.0.0.1 - - [27/Apr/2026 10:01:45] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:02:30] "GET /api/status HTTP/1.1" 200 -
+C:\WireSharkTools\luva\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:54259
+127.0.0.1 - - [27/Apr/2026 10:12:53] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:12:53] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:12:53] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:12:53] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:12:53] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:12:53] "GET /favicon.ico HTTP/1.1" 404 -
+C:\WireSharkTools\luvaStudio\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:51707
+127.0.0.1 - - [27/Apr/2026 10:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:13:25] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:13:25] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:13:25] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:13:25] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:13:25] "GET /favicon.ico HTTP/1.1" 404 -
+^CC:\WireSharkTools\luvaStudio\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:58281
+127.0.0.1 - - [27/Apr/2026 10:16:21] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:16:21] "GET /img/luva-studio-logo.svg HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:16:21] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:16:22] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:16:22] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:16:22] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:16:22] "GET /favicon.ico HTTP/1.1" 404 -
+C:\WireSharkTools\luvaStudio\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:51253
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET /img/luva-studio-logo.svg HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:22:35] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:22:35] "GET /favicon.ico HTTP/1.1" 404 -
+C:\WireSharkTools\luvaStudio\LuvaGuiServer.py:3: DeprecationWarning: 'cgi' is deprecated and slated for removal in Python 3.13
+  import cgi
+Luva Studio GUI running at http://127.0.0.1:58299
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET /img/luva-studio-logo.svg HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET /api/status HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET /reports/iec104_wireshark.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET /reports/communication_map.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:14] code 404, message File not found
+127.0.0.1 - - [27/Apr/2026 10:37:14] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /webgui/help.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_FlowsTab.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_AssetsTab.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_OverviewTab.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_TopologyTab.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_FindingsTab.png HTTP/1.1" 200 -
+127.0.0.1 - - [27/Apr/2026 10:37:17] "GET /img/MainPageScreenshot_ReportTab.png HTTP/1.1" 200 -

@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUVA Studio</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #06101b;
+      --bg2: #0b1725;
+      --bg3: #0f2334;
+      --panel: rgba(9, 20, 34, 0.9);
+      --panel-soft: rgba(14, 30, 48, 0.84);
+      --panel-strong: rgba(10, 24, 40, 0.96);
+      --text: #edf6ff;
+      --muted: #9eb4c8;
+      --steel: #6f879d;
+      --line: rgba(120, 160, 190, 0.18);
+      --cyan: #3dd9d6;
+      --amber: #f5b942;
+      --green: #47d17a;
+      --red: #ff6b7d;
+      --blue: #62a8ff;
+      --glow: 0 0 0 1px rgba(61,217,214,.1), 0 24px 70px rgba(0,0,0,.4);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        radial-gradient(circle at top left, rgba(61,217,214,.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(245,185,66,.05), transparent 22%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 45%, var(--bg3));
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+      min-height: 100vh;
+    }
+
+    .wrap { max-width: 1600px; margin: 0 auto; padding: 22px; }
+    .hero, .panel, .section-shell {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--glow);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(6, 15, 26, 0.78);
+    }
+    .topbar-left, .topbar-right, .chipline { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .pill, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: #dcecff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .pill.status-live::before,
+    .pill.status-ready::before,
+    .pill.status-alert::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .pill.status-live::before { background: var(--green); box-shadow: 0 0 12px rgba(71,209,122,.8); }
+    .pill.status-ready::before { background: var(--cyan); box-shadow: 0 0 12px rgba(61,217,214,.8); }
+    .pill.status-alert::before { background: var(--amber); box-shadow: 0 0 12px rgba(245,185,66,.8); }
+
+    .hero {
+      border-radius: 30px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(61,217,214,.08), transparent 32%),
+        linear-gradient(300deg, rgba(245,185,66,.05), transparent 28%);
+      pointer-events: none;
+    }
+    .hero-copy, .hero-brand { position: relative; z-index: 1; }
+    .eyebrow {
+      color: var(--cyan);
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 62px);
+      line-height: .98;
+      letter-spacing: -.03em;
+    }
+    .hero .subtitle {
+      margin: 16px 0 18px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 900px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      text-decoration: none;
+      background: rgba(255,255,255,.04);
+      font-weight: 700;
+    }
+    .hero-link.primary {
+      background: linear-gradient(135deg, rgba(61,217,214,.18), rgba(98,168,255,.16));
+      border-color: rgba(61,217,214,.28);
+    }
+
+    .brand-lockup {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      border-radius: 28px;
+      padding: 22px;
+      border: 1px solid rgba(61,217,214,.16);
+      background: linear-gradient(180deg, rgba(9, 18, 31, .94), rgba(14, 30, 48, .78));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .brand-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .brand-top img {
+      width: 82px;
+      height: 82px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 16px rgba(61,217,214,.18));
+      flex: 0 0 auto;
+    }
+    .brand-name {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+    .brand-tag {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .brand-stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .brand-stat .label {
+      color: var(--steel);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .brand-stat .value {
+      margin-top: 8px;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .layout { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; margin-bottom: 18px; }
+    .panel, .section-shell { border-radius: 24px; padding: 18px; }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .panel-title { margin: 0; font-size: 20px; }
+    .panel-note { color: var(--muted); font-size: 13px; }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 220px 180px;
+      gap: 10px;
+    }
+    input, select, button {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      font: inherit;
+    }
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(6, 16, 28, .92);
+      color: var(--text);
+    }
+    button {
+      padding: 14px 16px;
+      cursor: pointer;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1d8fce, #3dd9d6);
+    }
+    button.secondary { background: rgba(255,255,255,.05); }
+
+    .secondary-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dropzone {
+      margin-top: 12px;
+      border: 1px dashed rgba(61,217,214,.35);
+      border-radius: 18px;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(61,217,214,.05), rgba(98,168,255,.05));
+      text-align: center;
+      color: var(--muted);
+    }
+    .dropzone.drag {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px rgba(61,217,214,.35), 0 0 32px rgba(61,217,214,.10) inset;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .kpi {
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), transparent 72%);
+      opacity: .85;
+    }
+    .kpi .label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .kpi .value {
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
+    .ops-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .ops-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      padding: 14px;
+    }
+    .ops-card .label {
+      color: var(--steel);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .ops-card .value {
+      margin-top: 8px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 12px;
+    }
+    .tab {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: #d9e6ff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .tab.active {
+      background: linear-gradient(135deg, rgba(61,217,214,.18), rgba(98,168,255,.16));
+      border-color: rgba(61,217,214,.28);
+    }
+    .tabpane { display: none; }
+    .tabpane.active { display: block; }
+    .section-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+
+    .table-wrap {
+      overflow: auto;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(5, 12, 22, .75);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      color: #d8e5ff;
+      background: rgba(61,217,214,.08);
+      position: sticky;
+      top: 0;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+    td { color: #ebf2ff; }
+    .muted { color: var(--muted); }
+    .proto {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin: 2px 6px 2px 0;
+    }
+    .proto.modbus { background: rgba(245,185,66,.14); color: #ffe09a; border: 1px solid rgba(245,185,66,.24); }
+    .proto.dnp3 { background: rgba(61,217,214,.14); color: #b5ffff; border: 1px solid rgba(61,217,214,.24); }
+    .proto.s7 { background: rgba(98,168,255,.16); color: #d7e7ff; border: 1px solid rgba(98,168,255,.22); }
+    .proto.bacnet, .proto.opcua, .proto.enip, .proto.generic { background: rgba(71,209,122,.12); color: #c9f8d7; border: 1px solid rgba(71,209,122,.22); }
+
+    .viewer {
+      width: 100%;
+      height: 920px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: white;
+    }
+    .logbox, .detailbox {
+      white-space: pre-wrap;
+      background: rgba(5, 12, 22, .88);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      max-height: 300px;
+      overflow: auto;
+    }
+    .topology-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(61,217,214,.04), rgba(98,168,255,.04));
+    }
+    .topology-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .topology-links a {
+      color: #dff7ff;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: var(--steel);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      text-align: right;
+    }
+
+    @media (max-width: 1260px) {
+      .hero, .layout, .section-grid { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ops-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .wrap { padding: 14px; }
+      .kpis { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+      .brand-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="pill">Industrial OT Dashboard</div>
+        <div class="pill status-ready" id="systemStatusPill">System Ready</div>
+        <div class="pill" id="heroStamp">Waiting for analysis…</div>
+      </div>
+      <div class="topbar-right">
+        <a class="hero-link" href="/webgui/help.html" target="_blank">Open Help Guide</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">LUVA Studio // Local OT Visibility Workbench</div>
+        <h1>Industrial packet analysis with a premium control-room feel.</h1>
+        <p class="subtitle">LUVA Studio brings together capture intake, offline analysis, asset discovery, communication mapping, anomaly review, and report access in one polished OT dashboard tailored for local forensic and engineering workflows.</p>
+        <div class="chipline" id="protocolBadges"></div>
+        <div class="hero-actions">
+          <a class="hero-link primary" href="#run-panel">Start an Analysis</a>
+          <a class="hero-link" href="#report">Jump to Latest Report</a>
+          <a class="hero-link" href="/webgui/help.html" target="_blank">How to Use LUVA Studio</a>
+        </div>
+      </div>
+
+      <div class="hero-brand">
+        <div class="brand-lockup">
+          <div class="brand-top">
+            <img src="/img/luva-studio-logo.svg" alt="LUVA Studio logo" />
+            <div>
+              <div class="brand-name">LUVA Studio</div>
+              <div class="brand-tag">Offline ICS / OT Analysis</div>
+            </div>
+          </div>
+          <div class="brand-grid">
+            <div class="brand-stat">
+              <div class="label">Mode</div>
+              <div class="value">Passive</div>
+            </div>
+            <div class="brand-stat">
+              <div class="label">Execution</div>
+              <div class="value">Local</div>
+            </div>
+            <div class="brand-stat">
+              <div class="label">Output</div>
+              <div class="value">HTML + CSV</div>
+            </div>
+            <div class="brand-stat">
+              <div class="label">Focus</div>
+              <div class="value">Assets / Flows</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="panel" id="run-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Mission Control</h2>
+            <div class="panel-note">Choose a capture, upload a new packet file, and run Luva analysis.</div>
+          </div>
+        </div>
+        <div class="controls-grid">
+          <input id="capturePath" placeholder="C:\\path\\to\\capture.pcapng" />
+          <select id="sampleSelect"></select>
+          <button id="runBtn">Run Luva</button>
+        </div>
+        <div class="secondary-actions">
+          <button class="secondary" id="useSampleBtn">Use Sample</button>
+          <button class="secondary" id="openHtmlBtn">Open Latest Report</button>
+          <button class="secondary" id="refreshBtn">Refresh</button>
+          <button class="secondary" id="helpBtn">Help</button>
+        </div>
+        <div class="dropzone" id="dropzone">
+          <strong>Drag & drop a .pcap / .pcapng / .gz file here</strong><br>
+          or click to upload it into LUVA Studio’s local uploads folder.
+          <input id="fileInput" type="file" accept=".pcap,.pcapng,.gz" style="display:none" />
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="ops-grid" id="opsGrid"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Live Snapshot</h2>
+            <div class="panel-note">Instant overview of the latest completed analysis.</div>
+          </div>
+        </div>
+        <canvas id="summaryChart" height="220"></canvas>
+        <div style="margin-top:14px;" class="logbox" id="runLog">Ready. Pick a file and run Luva.</div>
+      </div>
+    </div>
+
+    <div class="section-shell">
+      <div class="tabs">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="assets">Assets</button>
+        <button class="tab" data-tab="flows">Flows</button>
+        <button class="tab" data-tab="topology">Topology</button>
+        <button class="tab" data-tab="findings">Findings</button>
+        <button class="tab" data-tab="report">Report</button>
+      </div>
+
+      <div id="overview" class="tabpane active">
+        <div class="section-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Operational Summary</h3>
+                <div class="panel-note">Metadata, protocol visibility, and analysis runtime details.</div>
+              </div>
+            </div>
+            <div id="details" class="detailbox"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Recent Uploads</h3>
+                <div class="panel-note">Newest captures staged in the local uploads area.</div>
+              </div>
+            </div>
+            <div id="uploadsBox" class="detailbox"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="assets" class="tabpane">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Discovered Assets</h3>
+              <div class="panel-note">Observed endpoints, risk, ports, and protocol participation.</div>
+            </div>
+          </div>
+          <div class="table-wrap"><table id="assetsTable"></table></div>
+        </div>
+      </div>
+
+      <div id="flows" class="tabpane">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Flows</h3>
+              <div class="panel-note">Communication pairs, packet counts, and byte volume.</div>
+            </div>
+          </div>
+          <div class="table-wrap"><table id="flowsTable"></table></div>
+        </div>
+      </div>
+
+      <div id="topology" class="tabpane">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Topology Preview</h3>
+              <div class="panel-note">Open the generated communication map and GraphML topology outputs.</div>
+            </div>
+          </div>
+          <div class="topology-card">
+            <div id="topologySummary"></div>
+            <div class="topology-links">
+              <a href="#" id="openCommMapLink">Open communication map</a>
+              <a href="#" id="openTopologyLink">Open topology GraphML</a>
+            </div>
+            <iframe id="commMapFrame" class="viewer" style="height:720px; margin-top:14px;"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div id="findings" class="tabpane">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Audit Findings</h3>
+              <div class="panel-note">Review the latest findings exported by the analysis engine.</div>
+            </div>
+          </div>
+          <div class="table-wrap"><table id="findingsTable"></table></div>
+        </div>
+      </div>
+
+      <div id="report" class="tabpane">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Latest HTML Report</h2>
+              <div class="panel-note">Embedded view of the newest generated LUVA analysis report.</div>
+            </div>
+          </div>
+          <iframe id="reportFrame" class="viewer"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">LUVA Studio // engineered for local OT packet analysis workflows</div>
+  </div>
+
+  <script>
+    let summaryChart;
+    let latestStatus;
+
+    function protoClass(name) {
+      const n = String(name || '').toLowerCase();
+      if (n.includes('modbus')) return 'modbus';
+      if (n.includes('dnp3')) return 'dnp3';
+      if (n.includes('s7')) return 's7';
+      if (n.includes('bacnet') || n.includes('opc') || n.includes('enip')) return 'bacnet';
+      return 'generic';
+    }
+
+    function protocolBadge(name) {
+      return `<span class="proto ${protoClass(name)}">${name}</span>`;
+    }
+
+    function setKpis(summary) {
+      const kpis = [
+        ['Assets', summary?.assets_discovered ?? 0],
+        ['OT Assets', summary?.ot_assets_discovered ?? 0],
+        ['Flows', summary?.flows_analyzed ?? 0],
+        ['Anomalies', summary?.anomalies_detected ?? 0],
+      ];
+      document.getElementById('kpis').innerHTML = kpis.map(([label, value]) => `<div class="kpi"><div class="label">${label}</div><div class="value">${value}</div></div>`).join('');
+    }
+
+    function setOpsCards(status) {
+      const summary = status.summary || {};
+      const meta = status.metadata || {};
+      const uploads = status.uploads || [];
+      const cards = [
+        ['Current input', (meta.input_files || [status.lastRun?.capture || 'No capture selected'])[0]],
+        ['Protocols seen', (summary.protocols_seen || []).length || 0],
+        ['Reports dir', status.reportsDir || 'n/a'],
+        ['Queued uploads', uploads.length],
+        ['Packets processed', meta.total_packets ?? 'n/a'],
+        ['Runtime (sec)', meta.duration_seconds ?? 'n/a'],
+      ];
+      document.getElementById('opsGrid').innerHTML = cards.map(([label, value]) => `<div class="ops-card"><div class="label">${label}</div><div class="value">${escapeHtml(String(value))}</div></div>`).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    }
+
+    function formatValue(value, key='') {
+      if (value === null || value === undefined || value === '') return '<span class="muted">—</span>';
+      if (Array.isArray(value)) {
+        if (key.toLowerCase().includes('protocol')) return value.map(protocolBadge).join(' ');
+        return escapeHtml(value.join(', '));
+      }
+      if (key.toLowerCase().includes('protocol') && String(value).trim()) return protocolBadge(value);
+      if (typeof value === 'object') return `<pre>${escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+      return escapeHtml(String(value));
+    }
+
+    function renderTable(id, rows, columns) {
+      const table = document.getElementById(id);
+      if (!rows || !rows.length) {
+        table.innerHTML = '<tr><td class="muted">No data yet.</td></tr>';
+        return;
+      }
+      table.innerHTML = `<thead><tr>${columns.map(c => `<th>${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${columns.map(c => `<td>${formatValue(row[c.key], c.key)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    }
+
+    function renderChart(summary) {
+      const ctx = document.getElementById('summaryChart');
+      const data = [summary?.assets_discovered ?? 0, summary?.flows_analyzed ?? 0, summary?.anomalies_detected ?? 0, summary?.critical_anomalies ?? 0];
+      if (summaryChart) summaryChart.destroy();
+      summaryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Assets', 'Flows', 'Anomalies', 'Critical'],
+          datasets: [{
+            data,
+            borderRadius: 14,
+            backgroundColor: ['#3dd9d6', '#62a8ff', '#f5b942', '#ff6b7d']
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#d9e7ff' }, grid: { color: 'rgba(255,255,255,.08)' } },
+            y: { ticks: { color: '#d9e7ff' }, grid: { color: 'rgba(255,255,255,.08)' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    function setSystemStatus(summary) {
+      const anomalies = summary?.anomalies_detected ?? 0;
+      const critical = summary?.critical_anomalies ?? 0;
+      const pill = document.getElementById('systemStatusPill');
+      pill.className = 'pill';
+      if (critical > 0) {
+        pill.classList.add('status-alert');
+        pill.textContent = `Critical Findings: ${critical}`;
+      } else if (anomalies > 0) {
+        pill.classList.add('status-live');
+        pill.textContent = `Anomalies Detected: ${anomalies}`;
+      } else {
+        pill.classList.add('status-ready');
+        pill.textContent = 'System Ready';
+      }
+    }
+
+    function renderDetails(status) {
+      const meta = status.metadata || {};
+      const stats = status.statistics || {};
+      const summary = status.summary || {};
+      document.getElementById('details').textContent = [
+        `Tool: ${meta.tool || 'luva'} ${meta.version || ''}`,
+        `Timestamp: ${meta.analysis_timestamp || 'n/a'}`,
+        `Input: ${(meta.input_files || []).join(', ') || 'n/a'}`,
+        `Packets: ${meta.total_packets ?? 'n/a'}`,
+        `Protocols seen: ${(summary.protocols_seen || []).join(', ') || 'n/a'}`,
+        `Duration: ${meta.duration_seconds ?? 'n/a'} sec`,
+        `Threat patterns: ${JSON.stringify(stats.threat_patterns || {}, null, 2)}`,
+      ].join('\n\n');
+      document.getElementById('heroStamp').textContent = meta.analysis_timestamp || 'Waiting for analysis…';
+      document.getElementById('protocolBadges').innerHTML = (summary.protocols_seen || []).map(protocolBadge).join('') || '<span class="pill">No protocol detected yet</span>';
+      document.getElementById('uploadsBox').textContent = (status.uploads || []).slice(0, 12).join('\n') || 'No uploaded captures yet.';
+      setSystemStatus(summary);
+    }
+
+    function populateSamples(samples) {
+      const sel = document.getElementById('sampleSelect');
+      sel.innerHTML = '<option value="">Pick bundled sample…</option>' + (samples || []).map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+    }
+
+    function relPath(absPath) {
+      if (!absPath) return null;
+      return '/' + absPath.replaceAll('\\', '/').split('/').slice(-2).join('/');
+    }
+
+    function loadFrames(status) {
+      const reportFrame = document.getElementById('reportFrame');
+      const report = status.files?.htmlReport;
+      reportFrame.src = report ? relPath(report) : 'about:blank';
+
+      const comm = status.files?.commMap;
+      document.getElementById('commMapFrame').src = comm ? relPath(comm) : 'about:blank';
+
+      const topo = status.topology || {};
+      document.getElementById('topologySummary').innerHTML = `
+        <strong>Nodes:</strong> ${(topo.nodes || []).length || 0}<br>
+        <strong>Edges:</strong> ${(topo.edges || []).length || 0}<br>
+        <strong>Graph file:</strong> ${escapeHtml(status.files?.topology || 'n/a')}
+      `;
+    }
+
+    function renderRunLog(lastRun) {
+      document.getElementById('runLog').textContent = lastRun
+        ? `${lastRun.ok ? 'SUCCESS' : 'FAILED'}\nCapture: ${lastRun.capture}\nExit: ${lastRun.exitCode}\n\nSTDOUT:\n${lastRun.stdout || ''}\n\nSTDERR:\n${lastRun.stderr || ''}`
+        : 'Ready. Pick a file and run Luva.';
+    }
+
+    async function refreshStatus(autoSwitchToReport = false) {
+      const res = await fetch('/api/status');
+      const status = await res.json();
+      latestStatus = status;
+      setKpis(status.summary || {});
+      setOpsCards(status);
+      renderChart(status.summary || {});
+      renderDetails(status);
+      populateSamples(status.sampleCaptures || []);
+      renderTable('assetsTable', (status.assets || []).slice(0, 50), [
+        { key: 'ip_address', label: 'IP' },
+        { key: 'role', label: 'Role' },
+        { key: 'protocols_seen', label: 'Protocols' },
+        { key: 'risk_score', label: 'Risk' },
+        { key: 'open_ports', label: 'Ports' },
+      ]);
+      renderTable('flowsTable', (status.flows || []).slice(0, 100), [
+        { key: 'src_ip', label: 'Source' },
+        { key: 'dst_ip', label: 'Destination' },
+        { key: 'ics_protocol', label: 'Protocol' },
+        { key: 'packet_count', label: 'Packets' },
+        { key: 'byte_count', label: 'Bytes' },
+      ]);
+      const findingCols = Object.keys((status.findings || [])[0] || {}).slice(0, 8).map(k => ({ key: k, label: k }));
+      renderTable('findingsTable', (status.findings || []).slice(0, 60), findingCols);
+      loadFrames(status);
+      renderRunLog(status.lastRun);
+      if (autoSwitchToReport) activateTab('report');
+    }
+
+    async function runAnalysis() {
+      const capture = document.getElementById('capturePath').value.trim();
+      if (!capture) return alert('Enter, choose, or upload a capture first.');
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.textContent = 'Running…';
+      try {
+        const res = await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ capture })
+        });
+        const data = await res.json();
+        latestStatus = data;
+        await refreshStatus(true);
+      } catch (err) {
+        alert('Run failed: ' + err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Run Luva';
+      }
+    }
+
+    async function uploadFile(file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'upload failed');
+      document.getElementById('capturePath').value = data.path;
+      await refreshStatus();
+    }
+
+    function activateTab(name) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.tabpane').forEach(p => p.classList.toggle('active', p.id === name));
+    }
+
+    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
+    document.getElementById('runBtn').addEventListener('click', runAnalysis);
+    document.getElementById('refreshBtn').addEventListener('click', () => refreshStatus());
+    document.getElementById('useSampleBtn').addEventListener('click', () => {
+      const sample = document.getElementById('sampleSelect').value;
+      if (sample) document.getElementById('capturePath').value = sample;
+    });
+    document.getElementById('sampleSelect').addEventListener('change', e => {
+      if (e.target.value) document.getElementById('capturePath').value = e.target.value;
+    });
+    document.getElementById('openHtmlBtn').addEventListener('click', async () => {
+      const path = latestStatus?.files?.htmlReport;
+      if (!path) return alert('No HTML report available yet.');
+      await fetch('/api/open-report?path=' + encodeURIComponent(path));
+    });
+    document.getElementById('helpBtn').addEventListener('click', () => {
+      window.open('/webgui/help.html', '_blank');
+    });
+    document.getElementById('openCommMapLink').addEventListener('click', e => {
+      e.preventDefault();
+      activateTab('topology');
+      const src = document.getElementById('commMapFrame').src;
+      if (src) window.open(src, '_blank');
+    });
+    document.getElementById('openTopologyLink').addEventListener('click', async e => {
+      e.preventDefault();
+      const path = latestStatus?.files?.topology;
+      if (!path) return alert('No topology file yet.');
+      await fetch('/api/open-report?path=' + encodeURIComponent(path));
+    });
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    dropzone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', async e => {
+      if (e.target.files?.[0]) await uploadFile(e.target.files[0]);
+    });
+    ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag');
+    }));
+    ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('drag');
+    }));
+    dropzone.addEventListener('drop', async e => {
+      const file = e.dataTransfer.files?.[0];
+      if (file) await uploadFile(file);
+    });
+
+    refreshStatus();
+  </script>
+</body>
+</html>

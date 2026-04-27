@@ -1,0 +1,39 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="900" y2="940" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1020"/>
+      <stop offset="1" stop-color="#121B3A"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="220" y1="160" x2="802" y2="824" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="text" x1="260" y1="650" x2="770" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EDE9FE"/>
+      <stop offset="1" stop-color="#CFFAFE"/>
+    </linearGradient>
+    <filter id="glow" x="120" y="120" width="784" height="784" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="#8B5CF6" flood-opacity="0.45"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="28" flood-color="#22D3EE" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  <circle cx="512" cy="312" r="186" fill="#0D1530" stroke="url(#stroke)" stroke-width="20" filter="url(#glow)"/>
+
+  <path d="M360 404L452 314L512 374L664 222" stroke="url(#stroke)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M360 404L512 252L664 404" stroke="url(#stroke)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+
+  <circle cx="360" cy="404" r="26" fill="#8B5CF6"/>
+  <circle cx="452" cy="314" r="24" fill="#A78BFA"/>
+  <circle cx="512" cy="374" r="24" fill="#67E8F9"/>
+  <circle cx="512" cy="252" r="24" fill="#C4B5FD"/>
+  <circle cx="664" cy="222" r="28" fill="#22D3EE"/>
+  <circle cx="664" cy="404" r="24" fill="#34D399"/>
+
+  <path d="M326 520C378 478 450 454 512 454C574 454 646 478 698 520" stroke="#24345F" stroke-width="16" stroke-linecap="round"/>
+  <path d="M356 556C404 524 458 508 512 508C566 508 620 524 668 556" stroke="#334577" stroke-width="12" stroke-linecap="round"/>
+
+  <text x="512" y="700" text-anchor="middle" fill="url(#text)" font-size="112" font-family="Segoe UI, Arial, sans-serif" font-weight="800">Luva</text>
+  <text x="512" y="790" text-anchor="middle" fill="#9FB2E8" font-size="86" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Studio</text>
+</svg>

@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "exitCode": 0,
+  "capture": "C:\\WireSharkTools\\luva\\public_pcaps\\iec104_wireshark.pcap",
+  "log": "C:\\WireSharkTools\\luva\\artifacts\\logs\\gui-run.log",
+  "stdout": "Done. Output under C:\\WireSharkTools\\luva\\reports/\n  C:\\WireSharkTools\\luva\\reports\\analysis_report.json\n  C:\\WireSharkTools\\luva\\reports\\assets.csv\n  C:\\WireSharkTools\\luva\\reports\\ot_assets.csv\n  C:\\WireSharkTools\\luva\\reports\\flows.csv\n  C:\\WireSharkTools\\luva\\reports\\anomalies.csv\n  C:\\WireSharkTools\\luva\\reports\\audit_findings.csv\n  C:\\WireSharkTools\\luva\\reports\\iec104_wireshark.html\n  C:\\WireSharkTools\\luva\\reports\\communication_map.html\n  C:\\WireSharkTools\\luva\\reports\\anomalies.ndjson\n  C:\\WireSharkTools\\luva\\reports\\topology.graphml\n",
+  "stderr": ""
+}

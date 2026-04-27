@@ -1,0 +1,17 @@
+COMMAND: C:\WireSharkTools\luva\.venv\Scripts\python.exe C:\WireSharkTools\luva\RunLuvaQuiet.py C:\WireSharkTools\luva\public_pcaps\iec104_wireshark.pcap C:\WireSharkTools\luva\reports
+
+STDOUT:
+Done. Output under C:\WireSharkTools\luva\reports/
+  C:\WireSharkTools\luva\reports\analysis_report.json
+  C:\WireSharkTools\luva\reports\assets.csv
+  C:\WireSharkTools\luva\reports\ot_assets.csv
+  C:\WireSharkTools\luva\reports\flows.csv
+  C:\WireSharkTools\luva\reports\anomalies.csv
+  C:\WireSharkTools\luva\reports\audit_findings.csv
+  C:\WireSharkTools\luva\reports\iec104_wireshark.html
+  C:\WireSharkTools\luva\reports\communication_map.html
+  C:\WireSharkTools\luva\reports\anomalies.ndjson
+  C:\WireSharkTools\luva\reports\topology.graphml
+
+
+STDERR:

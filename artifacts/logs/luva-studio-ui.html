@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luva Neon Control Center</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #070b17;
+      --bg2: #0b1124;
+      --panel: rgba(10, 18, 38, 0.85);
+      --panel2: rgba(16, 24, 50, 0.92);
+      --text: #eef4ff;
+      --muted: #91a5d6;
+      --accent: #8b5cf6;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #fb7185;
+      --border: rgba(120, 146, 210, 0.18);
+      --glow: 0 0 0 1px rgba(139,92,246,.15), 0 0 35px rgba(34,211,238,.08), 0 24px 70px rgba(0,0,0,.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(139,92,246,.24), transparent 22%),
+        radial-gradient(circle at 90% 12%, rgba(34,211,238,.18), transparent 20%),
+        radial-gradient(circle at 50% 100%, rgba(52,211,153,.08), transparent 28%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1560px; margin: 0 auto; padding: 22px; }
+    .hero, .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)), var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--glow);
+      backdrop-filter: blur(18px);
+    }
+    .hero {
+      border-radius: 28px;
+      padding: 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .hero h1 { margin: 8px 0 8px; font-size: 38px; }
+    .hero p { margin: 0; color: var(--muted); max-width: 840px; line-height: 1.5; }
+    .chipline { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: #dce9ff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .panel { border-radius: 24px; padding: 18px; }
+    .controls-grid { display: grid; grid-template-columns: 1fr 220px 180px; gap: 10px; }
+    input, select, button {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      font: inherit;
+    }
+    input, select {
+      width: 100%; padding: 14px 16px; background: rgba(7,12,24,.92); color: var(--text);
+    }
+    button {
+      padding: 14px 16px; cursor: pointer; color: white; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+    }
+    button.secondary { background: rgba(255,255,255,.05); }
+    .dropzone {
+      margin-top: 12px; border: 1px dashed rgba(34,211,238,.35); border-radius: 18px; padding: 18px;
+      background: linear-gradient(180deg, rgba(34,211,238,.06), rgba(139,92,246,.05));
+      text-align: center; color: var(--muted);
+    }
+    .dropzone.drag { border-color: var(--cyan); box-shadow: 0 0 0 1px rgba(34,211,238,.35), 0 0 32px rgba(34,211,238,.12) inset; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+    .kpi {
+      border-radius: 20px; padding: 16px; background: linear-gradient(180deg, rgba(139,92,246,.08), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+    }
+    .kpi .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .kpi .value { font-size: 30px; font-weight: 900; margin-top: 8px; }
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 12px; }
+    .tab {
+      padding: 10px 14px; border-radius: 999px; background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      color: #d9e6ff; cursor: pointer; font-weight: 700;
+    }
+    .tab.active { background: linear-gradient(135deg, rgba(139,92,246,.28), rgba(34,211,238,.18)); }
+    .tabpane { display: none; }
+    .tabpane.active { display: block; }
+    .section-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .table-wrap { overflow: auto; border-radius: 16px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.06); text-align: left; vertical-align: top; font-size: 14px; }
+    th { color: #d8e5ff; background: rgba(139,92,246,.1); position: sticky; top: 0; }
+    td { color: #ebf2ff; }
+    .muted { color: var(--muted); }
+    .proto { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; margin: 2px 6px 2px 0; }
+    .proto.modbus { background: rgba(251,191,36,.15); color: #fde68a; border: 1px solid rgba(251,191,36,.25); }
+    .proto.dnp3 { background: rgba(34,211,238,.14); color: #a5f3fc; border: 1px solid rgba(34,211,238,.24); }
+    .proto.s7 { background: rgba(139,92,246,.16); color: #ddd6fe; border: 1px solid rgba(139,92,246,.25); }
+    .proto.bacnet, .proto.opcua, .proto.enip, .proto.generic { background: rgba(52,211,153,.12); color: #bbf7d0; border: 1px solid rgba(52,211,153,.22); }
+    .viewer { width: 100%; height: 920px; border: 1px solid var(--border); border-radius: 18px; background: white; }
+    .logbox, .detailbox {
+      white-space: pre-wrap; background: rgba(6, 10, 20, .86); border: 1px solid var(--border); border-radius: 16px;
+      padding: 14px; font-family: Consolas, monospace; font-size: 13px; max-height: 280px; overflow: auto;
+    }
+    .topology-card {
+      border-radius: 18px; border: 1px solid var(--border); padding: 16px;
+      background: linear-gradient(180deg, rgba(34,211,238,.05), rgba(139,92,246,.05));
+    }
+    .topology-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .topology-links a {
+      color: #dff7ff; text-decoration: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.04);
+    }
+    @media (max-width: 1180px) {
+      .layout, .section-grid { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="chipline">
+          <div class="pill">Luva Neon Control Center</div>
+          <div class="pill" id="heroStamp">Waiting for analysis…</div>
+        </div>
+        <h1>Offline ICS / OT PCAP analysis with a proper neon cockpit</h1>
+        <p>Drag in a capture, run Luva, inspect protocols, assets, flows, topology, findings, and view the latest generated report instantly without leaving the page.</p>
+      </div>
+      <div class="chipline" id="protocolBadges"></div>
+    </div>
+
+    <div class="layout">
+      <div class="panel">
+        <h2>Run Analysis</h2>
+        <div class="controls-grid">
+          <input id="capturePath" placeholder="C:\\path\\to\\capture.pcapng" />
+          <select id="sampleSelect"></select>
+          <button id="runBtn">Run Luva</button>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="secondary" id="useSampleBtn">Use Sample</button>
+          <button class="secondary" id="openHtmlBtn">Open Latest Report</button>
+          <button class="secondary" id="refreshBtn">Refresh</button>
+        </div>
+        <div class="dropzone" id="dropzone">
+          <strong>Drag & drop a .pcap / .pcapng / .gz here</strong><br>
+          or click to choose a file for upload into Luva's local uploads folder.
+          <input id="fileInput" type="file" accept=".pcap,.pcapng,.gz" style="display:none" />
+        </div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Live Snapshot</h2>
+        <canvas id="summaryChart" height="220"></canvas>
+        <div style="margin-top:14px;" class="logbox" id="runLog">Ready. Pick a file and run Luva.</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="assets">Assets</button>
+      <button class="tab" data-tab="flows">Flows</button>
+      <button class="tab" data-tab="topology">Topology</button>
+      <button class="tab" data-tab="findings">Findings</button>
+      <button class="tab" data-tab="report">Report</button>
+    </div>
+
+    <div id="overview" class="tabpane active">
+      <div class="section-grid">
+        <div class="panel">
+          <h3>Quick Details</h3>
+          <div id="details" class="detailbox"></div>
+        </div>
+        <div class="panel">
+          <h3>Recent Uploads</h3>
+          <div id="uploadsBox" class="detailbox"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="assets" class="tabpane">
+      <div class="panel">
+        <h3>Discovered Assets</h3>
+        <div class="table-wrap"><table id="assetsTable"></table></div>
+      </div>
+    </div>
+
+    <div id="flows" class="tabpane">
+      <div class="panel">
+        <h3>Flows</h3>
+        <div class="table-wrap"><table id="flowsTable"></table></div>
+      </div>
+    </div>
+
+    <div id="topology" class="tabpane">
+      <div class="panel">
+        <h3>Topology Preview</h3>
+        <div class="topology-card">
+          <div id="topologySummary"></div>
+          <div class="topology-links">
+            <a href="#" id="openCommMapLink">Open communication map</a>
+            <a href="#" id="openTopologyLink">Open topology graphml</a>
+          </div>
+          <iframe id="commMapFrame" class="viewer" style="height:720px; margin-top:14px;"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div id="findings" class="tabpane">
+      <div class="panel">
+        <h3>Audit Findings</h3>
+        <div class="table-wrap"><table id="findingsTable"></table></div>
+      </div>
+    </div>
+
+    <div id="report" class="tabpane">
+      <div class="panel">
+        <h2>Latest HTML Report</h2>
+        <iframe id="reportFrame" class="viewer"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let summaryChart;
+    let latestStatus;
+
+    function protoClass(name) {
+      const n = String(name || '').toLowerCase();
+      if (n.includes('modbus')) return 'modbus';
+      if (n.includes('dnp3')) return 'dnp3';
+      if (n.includes('s7')) return 's7';
+      if (n.includes('bacnet') || n.includes('opc') || n.includes('enip')) return 'bacnet';
+      return 'generic';
+    }
+
+    function protocolBadge(name) {
+      return `<span class="proto ${protoClass(name)}">${name}</span>`;
+    }
+
+    function setKpis(summary) {
+      const kpis = [
+        ['Assets', summary?.assets_discovered ?? 0],
+        ['OT Assets', summary?.ot_assets_discovered ?? 0],
+        ['Flows', summary?.flows_analyzed ?? 0],
+        ['Anomalies', summary?.anomalies_detected ?? 0],
+      ];
+      document.getElementById('kpis').innerHTML = kpis.map(([label, value]) => `<div class="kpi"><div class="label">${label}</div><div class="value">${value}</div></div>`).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    }
+
+    function formatValue(value, key='') {
+      if (value === null || value === undefined || value === '') return '<span class="muted">—</span>';
+      if (Array.isArray(value)) {
+        if (key.toLowerCase().includes('protocol')) return value.map(protocolBadge).join(' ');
+        return escapeHtml(value.join(', '));
+      }
+      if (key.toLowerCase().includes('protocol') && String(value).trim()) return protocolBadge(value);
+      if (typeof value === 'object') return `<pre>${escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+      return escapeHtml(String(value));
+    }
+
+    function renderTable(id, rows, columns) {
+      const table = document.getElementById(id);
+      if (!rows || !rows.length) {
+        table.innerHTML = '<tr><td class="muted">No data yet.</td></tr>';
+        return;
+      }
+      table.innerHTML = `<thead><tr>${columns.map(c => `<th>${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${columns.map(c => `<td>${formatValue(row[c.key], c.key)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    }
+
+    function renderChart(summary) {
+      const ctx = document.getElementById('summaryChart');
+      const data = [summary?.assets_discovered ?? 0, summary?.flows_analyzed ?? 0, summary?.anomalies_detected ?? 0, summary?.critical_anomalies ?? 0];
+      if (summaryChart) summaryChart.destroy();
+      summaryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Assets', 'Flows', 'Anomalies', 'Critical'],
+          datasets: [{ data, borderRadius: 14, backgroundColor: ['#8b5cf6', '#22d3ee', '#fbbf24', '#fb7185'] }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#d9e7ff' }, grid: { color: 'rgba(255,255,255,.08)' } },
+            y: { ticks: { color: '#d9e7ff' }, grid: { color: 'rgba(255,255,255,.08)' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    function renderDetails(status) {
+      const meta = status.metadata || {};
+      const stats = status.statistics || {};
+      const summary = status.summary || {};
+      document.getElementById('details').textContent = [
+        `Tool: ${meta.tool || 'luva'} ${meta.version || ''}`,
+        `Timestamp: ${meta.analysis_timestamp || 'n/a'}`,
+        `Input: ${(meta.input_files || []).join(', ') || 'n/a'}`,
+        `Packets: ${meta.total_packets ?? 'n/a'}`,
+        `Protocols seen: ${(summary.protocols_seen || []).join(', ') || 'n/a'}`,
+        `Duration: ${meta.duration_seconds ?? 'n/a'} sec`,
+        `Threat patterns: ${JSON.stringify(stats.threat_patterns || {}, null, 2)}`,
+      ].join('\n\n');
+      document.getElementById('heroStamp').textContent = meta.analysis_timestamp || 'Waiting for analysis…';
+      document.getElementById('protocolBadges').innerHTML = (summary.protocols_seen || []).map(protocolBadge).join('') || '<span class="pill">No protocol detected yet</span>';
+      document.getElementById('uploadsBox').textContent = (status.uploads || []).slice(0, 12).join('\n') || 'No uploaded captures yet.';
+    }
+
+    function populateSamples(samples) {
+      const sel = document.getElementById('sampleSelect');
+      sel.innerHTML = '<option value="">Pick bundled sample…</option>' + (samples || []).map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+    }
+
+    function relPath(absPath) {
+      if (!absPath) return null;
+      return '/' + absPath.replaceAll('\\', '/').split('/').slice(-2).join('/');
+    }
+
+    function loadFrames(status) {
+      const reportFrame = document.getElementById('reportFrame');
+      const report = status.files?.htmlReport;
+      reportFrame.src = report ? relPath(report) : 'about:blank';
+
+      const comm = status.files?.commMap;
+      document.getElementById('commMapFrame').src = comm ? relPath(comm) : 'about:blank';
+
+      const topo = status.topology || {};
+      document.getElementById('topologySummary').innerHTML = `
+        <strong>Nodes:</strong> ${(topo.nodes || []).length || 0}<br>
+        <strong>Edges:</strong> ${(topo.edges || []).length || 0}<br>
+        <strong>Graph file:</strong> ${escapeHtml(status.files?.topology || 'n/a')}
+      `;
+    }
+
+    function renderRunLog(lastRun) {
+      document.getElementById('runLog').textContent = lastRun
+        ? `${lastRun.ok ? 'SUCCESS' : 'FAILED'}\nCapture: ${lastRun.capture}\nExit: ${lastRun.exitCode}\n\nSTDOUT:\n${lastRun.stdout || ''}\n\nSTDERR:\n${lastRun.stderr || ''}`
+        : 'Ready. Pick a file and run Luva.';
+    }
+
+    async function refreshStatus(autoSwitchToReport = false) {
+      const res = await fetch('/api/status');
+      const status = await res.json();
+      latestStatus = status;
+      setKpis(status.summary || {});
+      renderChart(status.summary || {});
+      renderDetails(status);
+      populateSamples(status.sampleCaptures || []);
+      renderTable('assetsTable', (status.assets || []).slice(0, 50), [
+        { key: 'ip_address', label: 'IP' },
+        { key: 'role', label: 'Role' },
+        { key: 'protocols_seen', label: 'Protocols' },
+        { key: 'risk_score', label: 'Risk' },
+        { key: 'open_ports', label: 'Ports' },
+      ]);
+      renderTable('flowsTable', (status.flows || []).slice(0, 100), [
+        { key: 'src_ip', label: 'Source' },
+        { key: 'dst_ip', label: 'Destination' },
+        { key: 'ics_protocol', label: 'Protocol' },
+        { key: 'packet_count', label: 'Packets' },
+        { key: 'byte_count', label: 'Bytes' },
+      ]);
+      const findingCols = Object.keys((status.findings || [])[0] || {}).slice(0, 8).map(k => ({ key: k, label: k }));
+      renderTable('findingsTable', (status.findings || []).slice(0, 60), findingCols);
+      loadFrames(status);
+      renderRunLog(status.lastRun);
+      if (autoSwitchToReport) activateTab('report');
+    }
+
+    async function runAnalysis() {
+      const capture = document.getElementById('capturePath').value.trim();
+      if (!capture) return alert('Enter, choose, or upload a capture first.');
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.textContent = 'Running…';
+      try {
+        const res = await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ capture })
+        });
+        const data = await res.json();
+        latestStatus = data;
+        await refreshStatus(true);
+      } catch (err) {
+        alert('Run failed: ' + err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Run Luva';
+      }
+    }
+
+    async function uploadFile(file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'upload failed');
+      document.getElementById('capturePath').value = data.path;
+      await refreshStatus();
+    }
+
+    function activateTab(name) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.tabpane').forEach(p => p.classList.toggle('active', p.id === name));
+    }
+
+    document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
+    document.getElementById('runBtn').addEventListener('click', runAnalysis);
+    document.getElementById('refreshBtn').addEventListener('click', () => refreshStatus());
+    document.getElementById('useSampleBtn').addEventListener('click', () => {
+      const sample = document.getElementById('sampleSelect').value;
+      if (sample) document.getElementById('capturePath').value = sample;
+    });
+    document.getElementById('sampleSelect').addEventListener('change', e => {
+      if (e.target.value) document.getElementById('capturePath').value = e.target.value;
+    });
+    document.getElementById('openHtmlBtn').addEventListener('click', async () => {
+      const path = latestStatus?.files?.htmlReport;
+      if (!path) return alert('No HTML report available yet.');
+      await fetch('/api/open-report?path=' + encodeURIComponent(path));
+    });
+    document.getElementById('openCommMapLink').addEventListener('click', e => {
+      e.preventDefault();
+      activateTab('topology');
+      const src = document.getElementById('commMapFrame').src;
+      if (src) window.open(src, '_blank');
+    });
+    document.getElementById('openTopologyLink').addEventListener('click', async e => {
+      e.preventDefault();
+      const path = latestStatus?.files?.topology;
+      if (!path) return alert('No topology file yet.');
+      await fetch('/api/open-report?path=' + encodeURIComponent(path));
+    });
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    dropzone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', async e => {
+      if (e.target.files?.[0]) await uploadFile(e.target.files[0]);
+    });
+    ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag');
+    }));
+    ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, e => {
+      e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('drag');
+    }));
+    dropzone.addEventListener('drop', async e => {
+      const file = e.dataTransfer.files?.[0];
+      if (file) await uploadFile(file);
+    });
+
+    refreshStatus();
+  </script>
+</body>
+</html>
