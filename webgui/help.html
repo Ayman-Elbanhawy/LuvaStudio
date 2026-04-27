@@ -14,9 +14,6 @@
       --muted: #9eb5c7;
       --line: rgba(124, 164, 194, 0.18);
       --cyan: #3dd9d6;
-      --amber: #f5b942;
-      --green: #4fd184;
-      --red: #ff6b7d;
       --glow: 0 18px 48px rgba(0,0,0,.34);
     }
     * { box-sizing: border-box; }
@@ -191,6 +188,15 @@
       padding: 2px 6px;
       border-radius: 8px;
     }
+    .project-info {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      line-height: 1.8;
+    }
     @media (max-width: 980px) {
       .hero, .grid, .tip-grid { grid-template-columns: 1fr; }
     }
@@ -201,13 +207,45 @@
     <div class="hero">
       <div>
         <div class="eyebrow">LUVA Studio // Help Guide</div>
-        <h1>Quick start, workflow, and visual walkthrough.</h1>
-        <div class="subtitle">This guide shows how to launch LUVA Studio, run packet analysis, review findings, and navigate the upgraded industrial OT dashboard. It now includes the real screenshots you created from the working application.</div>
+        <h1>Passive OT packet analysis with a guided local workflow.</h1>
+        <div class="subtitle">LUVA Studio helps you review industrial and SCADA packet captures from disk using a polished local dashboard. It focuses on passive offline analysis, asset discovery, flow visibility, topology review, findings, and report generation — using your current LUVA Studio screenshots, not older images.</div>
       </div>
       <div class="hero-card">
         <img src="/img/luva-studio-logo.svg" alt="LUVA Studio logo" />
         <div class="hero-card-title">LUVA Studio</div>
-        <div class="hero-card-copy">Local offline OT / ICS packet analysis with dashboards, topology views, anomaly review, and HTML reports — all from one interface.</div>
+        <div class="hero-card-copy">A local OT / ICS analysis workspace for reviewing stored captures safely and visually.</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <h2>What LUVA Studio does</h2>
+        <ul class="steps">
+          <li>Reads capture files from disk only.</li>
+          <li>Supports offline review of <code>.pcap</code>, <code>.pcapng</code>, and <code>.gz</code>-wrapped captures.</li>
+          <li>Builds asset inventory, flow summaries, topology context, findings, and reports.</li>
+          <li>Lets you inspect results from one local dashboard instead of juggling raw outputs manually.</li>
+          <li>Stays focused on passive analysis with no live capture or active network interaction.</li>
+        </ul>
+        <div class="callout">Important: LUVA Studio is intended for stored-capture analysis only. It does not perform live sniffing, injection, or plant-network interaction.</div>
+      </div>
+
+      <div class="panel">
+        <h2>Protocol and analysis coverage</h2>
+        <p>LUVA Studio is designed around industrial traffic visibility and supports workflows that can surface protocol and environment context for:</p>
+        <ul class="steps">
+          <li>Modbus/TCP</li>
+          <li>S7comm</li>
+          <li>DNP3</li>
+          <li>OPC UA</li>
+          <li>EtherNet/IP</li>
+          <li>IEC 60870-5-104</li>
+          <li>BACnet/IP</li>
+          <li>MQTT</li>
+          <li>SNMP</li>
+          <li>Omron FINS</li>
+          <li>GE SRTP</li>
+        </ul>
       </div>
     </div>
 
@@ -215,38 +253,24 @@
       <div class="panel">
         <h2>How to use LUVA Studio</h2>
         <ol class="steps">
-          <li>Launch the app with <strong>StartMe.bat</strong> in the LUVA Studio folder.</li>
-          <li>When the browser opens, go to the <strong>Mission Control</strong> section and either choose a sample capture or upload your own <code>.pcap</code>, <code>.pcapng</code>, or <code>.gz</code> file.</li>
+          <li>Launch <strong>StartMe.bat</strong> in the LUVA Studio folder.</li>
+          <li>Wait for the local browser UI to open.</li>
+          <li>Choose a bundled sample capture or upload your own file.</li>
           <li>Click <strong>Run Luva</strong> to execute the offline analysis pipeline.</li>
-          <li>Review KPI cards, Overview, Assets, Flows, Topology, Findings, and the embedded Report tab.</li>
-          <li>Use the built-in <strong>Help</strong> button inside the GUI anytime you want this guide again.</li>
+          <li>Review the results in the Overview, Assets, Flows, Topology, Findings, and Report tabs.</li>
+          <li>Use the built-in <strong>Help</strong> button inside the GUI any time you want this guide.</li>
         </ol>
-        <div class="callout">Tip: LUVA Studio automatically uses an available localhost port now, so startup is more reliable even if the old port is already occupied.</div>
       </div>
 
       <div class="panel">
-        <h2>What the tabs are for</h2>
-        <ul class="steps">
-          <li><strong>Overview</strong> shows analysis metadata, packet totals, protocols seen, and recent uploads.</li>
-          <li><strong>Assets</strong> lists discovered devices, roles, protocols, risk, and open ports.</li>
-          <li><strong>Flows</strong> shows communication paths, traffic volume, and protocol usage.</li>
-          <li><strong>Topology</strong> embeds the communication map and opens the GraphML output.</li>
-          <li><strong>Findings</strong> surfaces audit findings for quick review.</li>
-          <li><strong>Report</strong> embeds the latest full HTML report directly inside the dashboard.</li>
-        </ul>
+        <h2>What the tabs show</h2>
         <div class="tip-grid">
-          <div class="tip">
-            <strong>Best for demos</strong>
-            Start on Overview, then jump to Topology and Report for the most visual walkthrough.
-          </div>
-          <div class="tip">
-            <strong>Best for triage</strong>
-            Use Findings + Flows together to spot suspicious communication quickly.
-          </div>
-          <div class="tip">
-            <strong>Best for validation</strong>
-            Use Assets and Report tabs to confirm devices and exported evidence match expectations.
-          </div>
+          <div class="tip"><strong>Overview</strong>Metadata, packet totals, protocols seen, timestamps, and upload context.</div>
+          <div class="tip"><strong>Assets</strong>Detected endpoints, roles, protocols, ports, and risk context.</div>
+          <div class="tip"><strong>Flows</strong>Communication paths, protocol usage, packet counts, and volume.</div>
+          <div class="tip"><strong>Topology</strong>Communication mapping and topology-oriented outputs.</div>
+          <div class="tip"><strong>Findings</strong>Review surfaced findings and anomalies more quickly.</div>
+          <div class="tip"><strong>Report</strong>Embedded HTML reporting directly inside the dashboard.</div>
         </div>
       </div>
     </div>
@@ -254,58 +278,76 @@
     <div class="shots">
       <div class="shot">
         <h3>Main dashboard</h3>
-        <p>The full LUVA Studio main screen with the upgraded industrial OT dashboard styling and top-level controls.</p>
+        <p>The main LUVA Studio dashboard with local controls, operational summary, and tab navigation.</p>
         <img src="/img/MainPageScreenshot.png" alt="LUVA Studio main dashboard screenshot" />
       </div>
 
       <div class="shot">
         <h3>Overview tab</h3>
-        <p>Use this tab for analysis metadata, protocol visibility, timestamps, and recent upload context.</p>
+        <p>Use this tab for high-level analysis metadata, runtime context, and quick operational review.</p>
         <img src="/img/MainPageScreenshot_OverviewTab.png" alt="LUVA Studio overview tab screenshot" />
       </div>
 
       <div class="shot">
         <h3>Assets tab</h3>
-        <p>Review detected endpoints, roles, protocols, risk scores, and ports in one place.</p>
+        <p>Review discovered devices, protocol presence, roles, ports, and risk-oriented visibility.</p>
         <img src="/img/MainPageScreenshot_AssetsTab.png" alt="LUVA Studio assets tab screenshot" />
       </div>
 
       <div class="shot">
         <h3>Flows tab</h3>
-        <p>Inspect communication direction, packet counts, bytes, and ICS protocol relationships.</p>
+        <p>Inspect traffic relationships, packet counts, byte counts, and protocol-linked communication flows.</p>
         <img src="/img/MainPageScreenshot_FlowsTab.png" alt="LUVA Studio flows tab screenshot" />
       </div>
 
       <div class="shot">
         <h3>Topology tab</h3>
-        <p>Use the topology view to visualize communication mapping and launch the graph outputs.</p>
+        <p>Use topology and communication-map views to better understand environment relationships.</p>
         <img src="/img/MainPageScreenshot_TopologyTab.png" alt="LUVA Studio topology tab screenshot" />
       </div>
 
       <div class="shot">
         <h3>Findings tab</h3>
-        <p>Audit findings are surfaced here for fast anomaly and issue review.</p>
+        <p>This tab helps you review surfaced findings and investigation signals in one place.</p>
         <img src="/img/MainPageScreenshot_FindingsTab.png" alt="LUVA Studio findings tab screenshot" />
       </div>
 
       <div class="shot">
         <h3>Report tab</h3>
-        <p>The embedded HTML report gives you a polished analysis deliverable directly inside the app.</p>
+        <p>The report view embeds the latest generated HTML report directly inside LUVA Studio.</p>
         <img src="/img/MainPageScreenshot_ReportTab.png" alt="LUVA Studio report tab screenshot" />
       </div>
     </div>
 
     <div class="panel" style="margin-top:18px;">
-      <h2>Troubleshooting</h2>
+      <h2>Outputs you can expect</h2>
       <ul class="steps">
-        <li>If the UI does not appear right away, wait a few seconds for the Python environment and local web server to finish starting.</li>
-        <li>If analysis fails, check the log panel inside LUVA Studio and the files under <code>artifacts\logs</code>.</li>
-        <li>If a file does not upload, confirm it exists and uses a supported extension.</li>
-        <li>If you want to share instructions with others, this help page can be printed or saved as PDF from the browser.</li>
+        <li>Structured JSON analysis output</li>
+        <li>CSV exports for assets, flows, and findings</li>
+        <li>HTML reporting for readable review</li>
+        <li>Communication map output</li>
+        <li>GraphML topology output for graph tools and deeper review</li>
       </ul>
     </div>
 
-    <div class="footer">LUVA Studio Help // visual guide with live screenshots</div>
+    <div class="panel" style="margin-top:18px;">
+      <h2>Troubleshooting</h2>
+      <ul class="steps">
+        <li>If the UI takes a moment to appear, allow the Python environment and local server time to finish starting.</li>
+        <li>If analysis fails, review the in-app log panel and the files under <code>artifacts\logs</code>.</li>
+        <li>If a file does not upload, confirm the path exists and that the extension is supported.</li>
+        <li>If the browser page was already open from an older run, refresh it after launching the latest session.</li>
+      </ul>
+    </div>
+
+    <div class="project-info">
+      <strong>Project information</strong><br />
+      GitHub: github.com/Ayman-Elbanhawy/LuvaStudioio<br />
+      Website: SoftwareMile.com<br />
+      Support: Github@Softwaremile.com
+    </div>
+
+    <div class="footer">LUVA Studio Help // current local guide with updated screenshots</div>
   </div>
 </body>
 </html>

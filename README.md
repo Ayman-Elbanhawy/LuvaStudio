@@ -1,106 +1,188 @@
-# Luva Studio
+# LUVA Studio
 
 <p align="center">
-  <img src="img/luva-studio-logo.png" alt="Luva Studio Logo" width="220" />
+  <img src="img/luva-studio-logo.png" alt="LUVA Studio Logo" width="220" />
 </p>
 
 <p align="center">
-  <strong>Luva Studio</strong> is a polished local OT / ICS packet-analysis workstation that turns offline PCAP captures into readable dashboards, inventories, flows, findings, topology views, and interactive HTML reports.
-</p>
-
-<p align="center">
-  <a href="https://github.com/Ayman-Elbanhawy/LuvaStudio">GitHub</a> •
-  <a href="https://softwaremile.com">Website</a> •
-  <a href="mailto:Github@Softwaremile.com">Support</a>
+  <strong>LUVA Studio</strong> is a passive offline analysis workspace for industrial control and SCADA packet captures.
+  It reads capture files from disk only and turns them into a local dashboard with asset inventory, flow visibility,
+  topology views, findings, and generated HTML reports.
 </p>
 
 ---
 
 ## Overview
 
-Luva Studio wraps the Luva passive analyzer with a friendlier local experience for Windows users. Instead of dealing with a raw CLI first, you launch the app, open the local GUI, drag in a capture, run analysis, and review results in one place.
+LUVA Studio is built for reviewing offline OT / ICS captures in a more polished desktop-friendly workflow.
+Instead of starting from a raw command-line experience, you launch the local app, choose or upload a capture,
+run analysis, and review the results from one interface.
 
-### What Luva Studio gives you
+The platform is designed around passive analysis only:
 
-- Dark neon local dashboard UI
-- Drag-and-drop PCAP / PCAPNG / GZ capture upload
-- OT / ICS protocol badges and summaries
-- Asset inventory and flow review tables
-- Audit findings and threat hints
-- Communication-map and topology outputs
-- Embedded HTML report viewing in the same interface
-- Automatic dependency repair from `StartMe.bat`
-- Fully offline capture analysis workflow
+- no live sniffing
+- no packet injection
+- no interaction with the plant network
+- no active scanning behavior
+
+---
+
+## Core capabilities
+
+### Passive offline analysis
+
+LUVA Studio processes:
+
+- `.pcap`
+- `.pcapng`
+- `.gz`-wrapped capture files
+
+It analyzes stored captures from disk and produces structured results for engineering, review, and investigation workflows.
+
+### Asset discovery
+
+LUVA Studio identifies endpoints and builds a usable view of the environment, including:
+
+- IP and MAC visibility
+- inferred device roles
+- open ports
+- protocol participation
+- communication partners
+- packet and byte context
+- heuristic risk indicators
+
+### Flow visibility
+
+The platform builds communication views that help you inspect:
+
+- source and destination relationships
+- protocol usage
+- packet counts
+- byte counts
+- ICS-related flow behavior
+
+### Topology and communication mapping
+
+LUVA Studio generates topology-oriented outputs that help visualize the environment:
+
+- communication map HTML
+- GraphML topology export
+- embedded topology preview inside the local dashboard
+
+### Findings and anomaly review
+
+LUVA Studio surfaces findings for offline review through:
+
+- findings tables in the GUI
+- CSV exports
+- HTML reporting
+- protocol and traffic pattern summaries
+
+### Reporting outputs
+
+LUVA Studio can produce and display outputs such as:
+
+- JSON analysis reports
+- CSV exports
+- HTML reports
+- communication map HTML
+- GraphML topology files
+
+---
+
+## Protocol coverage
+
+LUVA Studio is designed to work with industrial traffic commonly found in OT and ICS environments.
+Current built-in coverage includes support and visibility around protocols such as:
+
+- Modbus/TCP
+- S7comm
+- DNP3
+- OPC UA
+- EtherNet/IP
+- IEC 60870-5-104
+- BACnet/IP
+- MQTT
+- SNMP
+- Omron FINS
+- GE SRTP
+
+---
+
+## LUVA Studio workflow
+
+1. Launch `StartMe.bat`
+2. The launcher checks Python and prepares the local environment
+3. The LUVA Studio GUI opens in the browser
+4. Choose a bundled sample capture or upload your own file
+5. Click **Run Luva**
+6. Review results in the tabs:
+   - Overview
+   - Assets
+   - Flows
+   - Topology
+   - Findings
+   - Report
 
 ---
 
 ## Screenshots
 
-### Luva Studio dashboard
+Below are the current LUVA Studio screenshots from the `img` folder, including the main window and each major tab view.
+
+### Main dashboard
 
 <p align="center">
-  <img src="artifacts/luva-studio-dashboard.png" alt="Luva Studio Dashboard" width="1000" />
+  <img src="img/MainPageScreenshot.png" alt="LUVA Studio main dashboard" width="1000" />
 </p>
 
-### Built-in Luva report example
+### Main dashboard alternate view
 
 <p align="center">
-  <img src="img/main.png" alt="Luva report example" width="1000" />
+  <img src="img/main.png" alt="LUVA Studio main dashboard alternate screenshot" width="1000" />
+</p>
+
+### Overview tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_OverviewTab.png" alt="LUVA Studio overview tab" width="1000" />
+</p>
+
+### Assets tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_AssetsTab.png" alt="LUVA Studio assets tab" width="1000" />
+</p>
+
+### Flows tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_FlowsTab.png" alt="LUVA Studio flows tab" width="1000" />
+</p>
+
+### Topology tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_TopologyTab.png" alt="LUVA Studio topology tab" width="1000" />
+</p>
+
+### Findings tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_FindingsTab.png" alt="LUVA Studio findings tab" width="1000" />
+</p>
+
+### Report tab
+
+<p align="center">
+  <img src="img/MainPageScreenshot_ReportTab.png" alt="LUVA Studio report tab" width="1000" />
 </p>
 
 ---
 
-## How it works
+## Typical output files
 
-Luva Studio uses the Luva analyzer engine under the hood.
-
-### Workflow
-
-1. Launch `StartMe.bat`
-2. The launcher:
-   - checks Python
-   - creates or repairs `.venv`
-   - installs missing dependencies
-   - starts the local Luva Studio GUI
-3. Open the browser UI at `http://127.0.0.1:8765`
-4. Choose a bundled sample or drag in your own capture
-5. Run analysis
-6. Review:
-   - KPI cards
-   - assets
-   - flows
-   - findings
-   - topology / communication map
-   - embedded HTML report
-
----
-
-## Quick start
-
-### Windows
-
-1. Install Python 3.10 or newer
-2. Open this folder
-3. Double-click:
-
-```bat
-StartMe.bat
-```
-
-4. Wait for Luva Studio to open in the browser
-5. Upload or select a PCAP file inside the GUI
-
----
-
-## Example usage
-
-### Example 1: IEC 104 sample
-
-Use the bundled sample capture:
-
-- `public_pcaps\iec104_wireshark.pcap`
-
-Luva Studio will generate artifacts such as:
+A completed run can generate files such as:
 
 - `reports\analysis_report.json`
 - `reports\assets.csv`
@@ -108,54 +190,36 @@ Luva Studio will generate artifacts such as:
 - `reports\audit_findings.csv`
 - `reports\communication_map.html`
 - `reports\topology.graphml`
-- `reports\iec104_wireshark.html`
-
-### Example 2: S7 sample
-
-Use:
-
-- `public_pcaps\s7comm_wireshark_reading_plc_status.pcap`
-
-This is useful for validating the GUI, tabs, report rendering, and the generated OT flow summaries.
+- capture-specific HTML report files
 
 ---
 
 ## Repository layout
 
-- `StartMe.bat` — Windows launcher and dependency repair bootstrap
-- `LuvaGuiServer.py` — local HTTP server for the Luva Studio GUI
-- `RunLuvaQuiet.py` — quiet runner wrapper used by the GUI
-- `webgui/` — Luva Studio browser UI
-- `luva/` — analyzer engine source
-- `ot_baseline/` — baseline tooling shipped with upstream Luva
-- `public_pcaps/` — bundled sample captures
+- `StartMe.bat` — Windows launcher
+- `LuvaGuiServer.py` — local GUI web server
+- `RunLuvaQuiet.py` — quiet analysis runner used by the GUI
+- `webgui/` — local browser interface and help page
+- `luva/` — analysis engine code
+- `ot_baseline/` — baseline analysis components
+- `public_pcaps/` — sample capture files
 - `reports/` — generated outputs
-- `img/` — branding and UI images
-- `artifacts/` — helper outputs, generated images, and logs
-
----
-
-## Help
-
-A local help guide is included here:
-
-- [Help.html](Help.html)
-
-You can open it directly in any browser.
+- `img/` — logos and current LUVA Studio screenshots
+- `artifacts/` — local helper outputs and logs
 
 ---
 
 ## Notes
 
-- Luva Studio analyzes files from disk only
-- It does **not** do live capture or network injection
-- It is best suited for offline OT / ICS PCAP review and reporting
-- The GUI is local-first and intended for desktop use on Windows
+- LUVA Studio is intended for local desktop use
+- analysis is passive and file-based
+- the GUI is designed to make OT / ICS capture review easier for offline workflows
+- the built-in Help page is available from inside the GUI
 
 ---
 
-## Links
+## Project information
 
-- GitHub: <a href="https://github.com/Ayman-Elbanhawy/LuvaStudio">github.com/Ayman-Elbanhawy/LuvaStudio</a>
-- Website: <a href="https://softwaremile.com">SoftwareMile.com</a>
-- Support: <a href="mailto:Github@Softwaremile.com">Github@Softwaremile.com</a>
+GitHub: github.com/Ayman-Elbanhawy/LuvaStudioio  
+Website: SoftwareMile.com  
+Support: Github@Softwaremile.com
