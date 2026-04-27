@@ -5,95 +5,108 @@
 </p>
 
 <p align="center">
-  <strong>LUVA Studio</strong> is a passive offline analysis workspace for industrial control and SCADA packet captures.
-  It reads capture files from disk only and turns them into a local dashboard with asset inventory, flow visibility,
-  topology views, findings, and generated HTML reports.
+  <strong>LUVA Studio</strong> is a premium local workspace for passive OT / ICS packet analysis — turning stored captures into asset intelligence, flow visibility, topology context, findings, and polished HTML reporting from one desktop-friendly dashboard.
+</p>
+
+<p align="center">
+  Built for offline review. Designed for control-room clarity. Focused on passive analysis only.
 </p>
 
 ---
 
-## Overview
+## Why LUVA Studio
 
-LUVA Studio is built for reviewing offline OT / ICS captures in a more polished desktop-friendly workflow.
-Instead of starting from a raw command-line experience, you launch the local app, choose or upload a capture,
-run analysis, and review the results from one interface.
+LUVA Studio is built for engineers, analysts, and reviewers who want a more polished way to inspect industrial packet captures without losing technical depth.
 
-The platform is designed around passive analysis only:
+Instead of working through scattered outputs first, LUVA Studio gives you a guided local workflow:
 
-- no live sniffing
-- no packet injection
-- no interaction with the plant network
-- no active scanning behavior
+- launch the app
+- open the browser dashboard
+- choose or upload a capture
+- run passive analysis
+- review assets, flows, topology, findings, and reports in one place
+
+This makes LUVA Studio feel closer to a purpose-built OT analysis workstation than a raw parser front end.
 
 ---
 
-## Core capabilities
+## Built for passive offline analysis
 
-### Passive offline analysis
-
-LUVA Studio processes:
+LUVA Studio works with stored capture files from disk, including:
 
 - `.pcap`
 - `.pcapng`
-- `.gz`-wrapped capture files
+- `.gz`-wrapped captures
 
-It analyzes stored captures from disk and produces structured results for engineering, review, and investigation workflows.
+The platform is intentionally focused on passive workflows:
 
-### Asset discovery
+- no live sniffing
+- no packet injection
+- no active scanning behavior
+- no interaction with the plant network
 
-LUVA Studio identifies endpoints and builds a usable view of the environment, including:
+That makes it well suited for offline review, engineering validation, packet-driven investigation, and presentation-ready reporting.
+
+---
+
+## What you get in the experience
+
+### A premium local OT dashboard
+
+LUVA Studio wraps the underlying analysis workflow in a polished browser-based control surface with:
+
+- launch-and-run simplicity
+- mission-control style analysis flow
+- operational summary cards
+- protocol visibility badges
+- embedded report viewing
+- built-in help and guided review
+
+### Asset intelligence
+
+LUVA Studio helps transform raw packet data into a clearer inventory view of the environment, including:
 
 - IP and MAC visibility
-- inferred device roles
+- inferred roles
 - open ports
 - protocol participation
 - communication partners
 - packet and byte context
 - heuristic risk indicators
 
-### Flow visibility
+### Flow and communication visibility
 
-The platform builds communication views that help you inspect:
+Traffic is organized into readable communication views that help you inspect:
 
-- source and destination relationships
-- protocol usage
-- packet counts
-- byte counts
-- ICS-related flow behavior
+- source-to-destination relationships
+- protocol usage across systems
+- packet counts and byte volume
+- ICS-related communication behavior
 
-### Topology and communication mapping
+### Topology and mapping context
 
-LUVA Studio generates topology-oriented outputs that help visualize the environment:
+LUVA Studio supports broader environment understanding through:
 
-- communication map HTML
+- communication map HTML output
 - GraphML topology export
-- embedded topology preview inside the local dashboard
+- embedded topology review in the local dashboard
 
-### Findings and anomaly review
+### Findings and report-ready outputs
 
-LUVA Studio surfaces findings for offline review through:
+The platform supports review and presentation workflows with outputs such as:
 
-- findings tables in the GUI
-- CSV exports
-- HTML reporting
-- protocol and traffic pattern summaries
-
-### Reporting outputs
-
-LUVA Studio can produce and display outputs such as:
-
+- findings tables inside the GUI
 - JSON analysis reports
 - CSV exports
 - HTML reports
-- communication map HTML
+- communication map output
 - GraphML topology files
 
 ---
 
 ## Protocol coverage
 
-LUVA Studio is designed to work with industrial traffic commonly found in OT and ICS environments.
-Current built-in coverage includes support and visibility around protocols such as:
+LUVA Studio is designed for industrial traffic visibility across common OT / ICS environments. Current built-in coverage includes support and analysis around:
 
 - Modbus/TCP
 - S7comm
