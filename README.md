@@ -243,5 +243,5 @@ A completed run can generate files such as:
 ## Project information
 
 GitHub: github.com/Ayman-Elbanhawy/LuvaStudioio  
-Website: SoftwareMile.com  
+Website: [SoftwareMile.com](https://SoftwareMile.com)  
 Support: Github@Softwaremile.com
